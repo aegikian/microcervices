@@ -4,6 +4,7 @@ import webpack, { DefinePlugin } from "webpack";
 import "webpack-dev-server";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import ReactRefreshTypescript from "react-refresh-typescript";
+import packageJson from "./package.json";
 
 type Mode = "production" | "development";
 interface EnvVar {
@@ -22,12 +23,35 @@ const output = {
 const plugins = [
   new HtmlWebpackPlugin({
     template: path.resolve(__dirname, "public", "index.html"),
+    publicPath: "/",
   }),
   new MiniCssExtractPlugin({
     filename: "css/[name].[contenthash:8].css",
     chunkFilename: "css/[name].[contenthash:8].css",
   }),
   new DefinePlugin({}),
+  new webpack.container.ModuleFederationPlugin({
+    name: "admin",
+    filename: "remoteEntry.js",
+    exposes: {
+      "./Router": "./src/router.tsx",
+    },
+    shared: {
+      ...packageJson.dependencies,
+      react: {
+        eager: true,
+        requiredVersion: packageJson.dependencies["react"],
+      },
+      "react-router-dom": {
+        eager: true,
+        requiredVersion: packageJson.dependencies["react-router-dom"],
+      },
+      "react-dom": {
+        eager: true,
+        requiredVersion: packageJson.dependencies["react-dom"],
+      },
+    },
+  }),
 ];
 const rules = [
   {
@@ -78,7 +102,7 @@ export default <T extends EnvVar>(env: T) => {
     devtool: isDev ? "inline-source-map" : false,
     devServer: isDev
       ? {
-          port: env.port || 3000,
+          port: env.port || 3002,
           open: false,
           historyApiFallback: true,
           hot: true,

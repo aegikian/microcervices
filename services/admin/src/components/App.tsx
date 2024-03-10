@@ -7,13 +7,7 @@ export const App = () => {
   const q = sum(1, 4);
   return (
     <div>
-      Hello World
-      <div className="links">
-        <Link to={"/about"}>About</Link>
-        <Link to={"/shop"}>Shop</Link>
-        <Link to={"/"}>Home</Link>
-      </div>
-      <div>{q}</div>
+      ADMIN MODULE
       <Count />
       <Outlet />
     </div>

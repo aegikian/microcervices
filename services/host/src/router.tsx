@@ -1,31 +1,18 @@
-import { createBrowserRouter } from "react-router-dom";
+import { RouteObject, createBrowserRouter } from "react-router-dom";
 import { App } from "./components/App";
 import React, { Suspense } from "react";
-import { LazyAbout } from "./components/about/About.lazy";
-import { LazyShop } from "./components/shop/Shop.lazy";
+import shopRoutes from "shop/Router";
+import adminRoutes from "admin/Router";
 
-export default createBrowserRouter([
+const routes: RouteObject[] = [
   {
     path: "/",
     element: <App />,
+    children: [...shopRoutes, ...adminRoutes],
     errorElement: <h1>ERRor, page not found</h1>,
-    children: [
-      {
-        path: "/about",
-        element: (
-          <Suspense fallback={"Loading..."}>
-            <LazyAbout />
-          </Suspense>
-        ),
-      },
-      {
-        path: "/shop",
-        element: (
-          <Suspense fallback={"Loading..."}>
-            <LazyShop />
-          </Suspense>
-        ),
-      },
-    ],
   },
-]);
+];
+
+export const router = createBrowserRouter(routes);
+
+export default routes;

@@ -5,5 +5,8 @@
   "workspaces": [
     "packages/*",
     "services/*"
-  ]
+  ],
+  "scripts": {
+    "start" : "npm run start -w host & npm run start -w admin & npm run start -w shop"
+  }
 }
