@@ -1,0 +1,1 @@
+export {default as buildWebpack} from './webpack.config'

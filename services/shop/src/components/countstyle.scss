@@ -1,0 +1,11 @@
+.counter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: red;
+  color: aqua;
+  &:hover {
+    transform: scale(1.2);
+  }
+}
